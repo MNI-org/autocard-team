@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        OUTPUT_DIR: build
+    image: my-react-app:latest
+    container_name: my-react-app
+    ports:
+      - "0.0.0.0:80:80"
+    restart: "no"

@@ -1,0 +1,25 @@
+$primary: #1ebc8d;
+
+$secondary: #64748b;
+$success: #22c55e;
+$info: #06b6d4;
+$warning: #f59e0b;
+$danger: #ef4444;
+$light: #f8fafc;
+$dark: #0f172a;
+
+$body-bg: #ffffff;
+$body-color: #0f172a;
+$link-color: $primary;
+$link-hover-color: darken($link-color, 10%);
+
+// določi katero barvo glede na kontrast
+$min-contrast-ratio: 4.5;
+$color-contrast-dark: #0f172a;
+$color-contrast-light: #ffffff;
+
+
+@import "bootstrap/scss/bootstrap";
+.btn-primary {
+  color: #ffffff;
+}
