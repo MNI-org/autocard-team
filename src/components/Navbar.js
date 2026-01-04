@@ -74,6 +74,14 @@ function Navbar(props) {
                                     </button>
                                 </li>
                                 <li className="nav-item">
+                                    <button
+                                        className={`nav-link ${props.curr === "practice" ? "active" : ""}`}
+                                        onClick={() => navigate("/game")}
+                                    >
+                                        Praksa
+                                    </button>
+                                </li>
+                                <li className="nav-item">
                                     <button className={`nav-link`}
                                             onClick={() => handleLogout()}>
                                         Odjava

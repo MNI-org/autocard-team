@@ -37,13 +37,25 @@ function Home() {
                                     <div className="card-body text-center">
                                         {userLogged ? (
                                             <>
-                                                <h2 className="mb-4">Pozdravljen{currentUser?.displayName ? `, ${currentUser.displayName}` : ""}!</h2>
-                                                <button
-                                                    className="btn btn-primary w-100 mb-2"
-                                                    onClick={() => navigate("/collections")}
-                                                >
-                                                    Igraj
-                                                </button>
+                                                <h2 className="mb-4">
+                                                    Pozdravljen{currentUser?.displayName ? `, ${currentUser.displayName}` : ""}!
+                                                </h2>
+
+                                                <div className="d-grid gap-2">
+                                                    <button
+                                                        className="btn btn-outline-primary btn-lg"
+                                                        onClick={() => navigate("/collections")}
+                                                    >
+                                                        Teorija
+                                                    </button>
+
+                                                    <button
+                                                        className="btn btn-primary btn-lg"
+                                                        onClick={() => navigate("/game")}
+                                                    >
+                                                        Praksa
+                                                    </button>
+                                                </div>
                                             </>
                                         ) : (
                                             <>
