@@ -21,6 +21,10 @@ export default class MenuScene extends Phaser.Scene {
     }
 
     create() {
+        if(localStorage.getItem("username")===null) {
+            window.location.href = "http://localhost:3000/";
+            return;
+        }
         const { width, height } = this.scale;
 
         this.children.removeAll(true); // odstrani vse objekte iz prejsnje scene

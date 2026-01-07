@@ -20,7 +20,11 @@ export const doSignInWithGoogle = async () => {
   return result;
 };
 
-export const doSignOut = () => signOut(auth);
+export const doSignOut = () => {
+  localStorage.removeItem("username");
+  localStorage.removeItem("uid")
+  signOut(auth);
+};
 
 export const doPasswordReset = (email) =>
     sendPasswordResetEmail(auth, email);

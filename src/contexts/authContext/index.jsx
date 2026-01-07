@@ -31,6 +31,8 @@ export function AuthProvider({ children }) {
                         email: user.email,
                         ...userDoc.data()
                     });
+                    localStorage.setItem("username",user.displayName)
+                    localStorage.setItem("uid",user.uid)
                 } else {
                     setCurrentUser({
                         uid: user.uid,
