@@ -139,7 +139,7 @@ export default class LabScene extends Phaser.Scene {
       fontStyle: 'bold'
     });
 
-    const logoutButton = this.add.text(40, 30, '↩ Odjavi se', {
+    const logoutButton = this.add.text(40, 30, '↩ Nazaj', {
       fontFamily: 'Arial',
       fontSize: '20px',
       color: '#0066ff',
@@ -150,8 +150,7 @@ export default class LabScene extends Phaser.Scene {
       .on('pointerover', () => logoutButton.setStyle({ color: '#0044cc' }))
       .on('pointerout', () => logoutButton.setStyle({ color: '#0066ff' }))
       .on('pointerdown', () => {
-        localStorage.removeItem('username');
-        this.scene.start('MenuScene');
+        window.location.href = "http://localhost:3000";
       });
 
     const buttonWidth = 180;

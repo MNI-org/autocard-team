@@ -145,12 +145,6 @@ export default class ScoreboardScene extends Phaser.Scene {
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const userLoged = localStorage.getItem('username');
 
-        // \[TEST\] optional: remove this in production
-        const userToUpdate = users.find(u => u.username === 'enej');
-        if (userToUpdate) {
-            userToUpdate.score = 130;
-            localStorage.setItem('users', JSON.stringify(users));
-        }
 
         users.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 
