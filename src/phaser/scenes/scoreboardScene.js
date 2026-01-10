@@ -1,10 +1,15 @@
 import Phaser from 'phaser';
+import { db } from '../../firebase/firebase';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default class ScoreboardScene extends Phaser.Scene {
     constructor() {
         super('ScoreboardScene');
         this.cameFromMenu = false;
         this.elements = {};
+        this.leaderboard = [];
+        this.currentUser = null;
     }
 
     init(data) {
@@ -26,8 +31,26 @@ export default class ScoreboardScene extends Phaser.Scene {
         // container for all display objects so we can clear/rebuild on resize
         this.root = this.add.container(0, 0);
 
-        // initial layout
-        this.buildLayout(width, height);
+        // start listening for auth changes so we can highlight the current player
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            this.currentUser = user;
+            // rebuild to update highlight if needed
+            if (this.root) {
+                this.root.removeAll(true);
+                const { width: w, height: h } = this.scale;
+                this.buildLayout(w, h);
+            }
+        });
+
+        // load leaderboard from Firestore first, then build layout
+        this.loadLeaderboard()
+            .catch(err => {
+                console.error('Failed to load leaderboard from Firestore', err);
+            })
+            .finally(() => {
+                this.buildLayout(width, height);
+            });
 
         // listen for resize
         this.scale.on('resize', (gameSize) => {
@@ -47,6 +70,18 @@ export default class ScoreboardScene extends Phaser.Scene {
                 this.scene.start('LabScene');
             }
         });
+    }
+
+    async loadLeaderboard() {
+        // Query all users ordered by xp desc
+        const usersCol = collection(db, 'users');
+        const q = query(usersCol, orderBy('xp', 'desc'));
+        const snapshot = await getDocs(q);
+        const users = [];
+        snapshot.forEach(docSnap => {
+            users.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        this.leaderboard = users;
     }
 
     buildLayout(width, height) {
@@ -141,12 +176,20 @@ export default class ScoreboardScene extends Phaser.Scene {
         }).setOrigin(0.5);
         root.add(title);
 
-        // USERS
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const userLoged = localStorage.getItem('username');
+        // USERS (use Firestore data only)
+        const users = this.leaderboard || [];
 
+        const isCurrentUser = (userDoc) => {
+            if (!this.currentUser) return false;
+            const auth = this.currentUser;
+            if (userDoc.id && auth.uid && userDoc.id === auth.uid) return true;
+            if (userDoc.email && auth.email && userDoc.email === auth.email) return true;
+            if (userDoc.displayname && auth.displayName && userDoc.displayname === auth.displayName) return true;
+            return false;
+        };
 
-        users.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+        // already sorted by Firestore query (xp desc), but ensure fallback sort
+        users.sort((a, b) => (b.xp ?? b.score ?? 0) - (a.xp ?? a.score ?? 0));
 
         const rowHeight = 35;
         const maxVisibleRows = Math.floor((panelHeight - 140) / rowHeight);
@@ -156,12 +199,25 @@ export default class ScoreboardScene extends Phaser.Scene {
             const y = panelY + 80 + index * rowHeight;
             const rank = index + 1;
 
-            // avatar
-            if (user.profilePic) {
-                const avatar = this.add.image(panelX + 60, y + 15, user.profilePic)
+            // Resolve username and score
+            const username = user.displayname || user.username || user.email || '—';
+            const score = user.xp ?? user.score ?? 0;
+
+            // avatar: if Firestore stores an avatar index (1..14) that matches preloaded assets
+            if (user.avatarIndex && Number.isFinite(user.avatarIndex) && this.textures.exists(`avatar${user.avatarIndex}`)) {
+                const avatar = this.add.image(panelX + 60, y + 15, `avatar${user.avatarIndex}`)
                     .setDisplaySize(40, 40)
                     .setOrigin(0.5);
                 root.add(avatar);
+            } else {
+                // draw a simple circle + initials
+                const circle = this.add.circle(panelX + 60, y + 15, 20, 0xe0e0e0);
+                const initials = String(username).split(' ').map(s => s[0] || '').slice(0,2).join('').toUpperCase();
+                const initialsText = this.add.text(panelX + 60, y + 10, initials, {
+                    fontSize: '14px',
+                    color: '#444'
+                }).setOrigin(0.5, 0.5);
+                root.add([circle, initialsText]);
             }
 
             // rank
@@ -172,19 +228,27 @@ export default class ScoreboardScene extends Phaser.Scene {
             root.add(rankText);
 
             // username
-            const style = (user.username === userLoged)
+            const style = isCurrentUser(user)
                 ? { fontSize: '22px', color: '#0f5cad', fontStyle: 'bold' }
                 : { fontSize: '22px', color: '#222' };
-            const nameText = this.add.text(panelX + 140, y + 5, user.username, style);
+            const nameText = this.add.text(panelX + 140, y + 5, username, style);
             root.add(nameText);
 
             // score
-            const scoreText = this.add.text(panelX + panelWidth - 80, y + 5, `${user.score ?? 0}`, {
+            const scoreText = this.add.text(panelX + panelWidth - 80, y + 5, `${score}`, {
                 fontSize: '22px',
                 color: '#0044cc'
             }).setOrigin(1, 0);
             root.add(scoreText);
         });
+
+        if (visibleUsers.length === 0) {
+            const emptyText = this.add.text(width / 2, panelY + panelHeight / 2, 'Trenutno ni uporabnikov na lestvici.', {
+                fontSize: '18px',
+                color: '#777'
+            }).setOrigin(0.5);
+            root.add(emptyText);
+        }
 
         // BACK BUTTON
         const backButton = this.add.text(width / 2, panelY + panelHeight - 40, '↩ Nazaj', {
