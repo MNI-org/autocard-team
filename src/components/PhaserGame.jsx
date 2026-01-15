@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { startGame, stopGame } from "../phaser/game";
+import Navbar from "./Navbar";
 
 export default function PhaserGame() {
     useEffect(() => {
@@ -11,6 +12,7 @@ export default function PhaserGame() {
     }, []);
 
     return (
+    <Navbar curr={"game"}>
         <div
             id="game-container"
             style={{
@@ -19,5 +21,6 @@ export default function PhaserGame() {
                 margin: "0 auto"
             }}
         />
+    </Navbar>
     );
 }

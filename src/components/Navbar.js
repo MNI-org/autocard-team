@@ -50,17 +50,25 @@ function Navbar(props) {
                                     </button>
                                 </li>
                                 <li className="nav-item">
-                                    <button className={`nav-link ${props.curr === "collections" ? "active" : ""}`}
-                                            onClick={() => navigate("/collections")}>
-                                        Zbirke
+                                    <button
+                                        className={`nav-link ${props.curr === "practice" ? "active" : ""}`}
+                                        onClick={() => navigate("/game")}
+                                    >
+                                        Praksa
                                     </button>
                                 </li>
                                 <li className="nav-item">
-                                    <button className={`nav-link ${props.curr === "editor" ? "active" : ""}`}
-                                            onClick={() => navigate("/editor")}>
-                                        Ustvari
+                                    <button className={`nav-link ${props.curr === "collections" ? "active" : ""}`}
+                                            onClick={() => navigate("/collections")}>
+                                        Teorija
                                     </button>
                                 </li>
+                                {/*<li className="nav-item">*/}
+                                {/*    <button className={`nav-link ${props.curr === "editor" ? "active" : ""}`}*/}
+                                {/*            onClick={() => navigate("/editor")}>*/}
+                                {/*        Ustvari*/}
+                                {/*    </button>*/}
+                                {/*</li>*/}
                                 <li className="nav-item">
                                     <button className={`nav-link ${props.curr === "editor" ? "active" : ""}`}
                                             onClick={() => navigate("/profile")}>
@@ -71,14 +79,6 @@ function Navbar(props) {
                                     <button className={`nav-link ${props.curr === "editor" ? "active" : ""}`}
                                             onClick={() => navigate("/leaderboard")}>
                                         Lestvica
-                                    </button>
-                                </li>
-                                <li className="nav-item">
-                                    <button
-                                        className={`nav-link ${props.curr === "practice" ? "active" : ""}`}
-                                        onClick={() => navigate("/game")}
-                                    >
-                                        Praksa
                                     </button>
                                 </li>
                                 <li className="nav-item">
