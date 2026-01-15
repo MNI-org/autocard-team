@@ -28,8 +28,8 @@ function Search(props) {
                 required
             />
                 <div className="d-flex">
-                <Dropdown items={[6,7,8,9]} name={"Razred"} set={props.grade[1]} get={props.grade[0]} ></Dropdown>
-                <Dropdown items={subjects} name={"Predmeti"} set={props.subject[1]} get={props.subject[0]}  ></Dropdown>
+                <Dropdown items={[6,7,8,9]} name={"Letnik"} set={props.grade[1]} get={props.grade[0]} ></Dropdown>
+                <Dropdown items={subjects} name={"Predmet"} set={props.subject[1]} get={props.subject[0]}  ></Dropdown>
                 <Dropdown items={[1, 2, 3]} name={"Težavnost"} set={props.difficulty[1]} get={props.difficulty[0]}  ></Dropdown>
                 </div>
         </div>

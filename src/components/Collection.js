@@ -22,7 +22,7 @@ function Collection(props) {
             <div className="card-body">
                 <div className="d-flex justify-content-between align-items-start mb-2">
                     <h5 className="card-title mb-0">{props.data.name}</h5>
-                    <span className="badge bg-primary">za {props.data.grade}. razred</span>
+                    <span className="badge bg-primary">za {props.data.grade}. letnik</span>
                 </div>
 
                 <div className="mb-3 d-flex justify-content-between">
