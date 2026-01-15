@@ -5,7 +5,7 @@ import { doCreateUserWithEmailAndPassword, doSignInWithEmailAndPassword, doSignI
 import { db } from "../firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Navbar from "../components/Navbar";
-import Logo from '../assets/AutoCard_logo.png';
+import Logo from '../assets/AutoCard_electronics_logo.png';
 
 function Login() {
     const [email, setEmail] = useState("");

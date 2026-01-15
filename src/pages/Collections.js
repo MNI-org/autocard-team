@@ -16,11 +16,6 @@ function Collections() {
     const [grade, setGrade] = useState("");
     const [subject, setSubject] = useState("");
     const [difficulty, setDifficulty] = useState("");
-    const subjects = [
-        "SLO", "MAT", "ANG", "LUM", "GUM",
-        "GEO", "ZGO", "ETK", "FIZ", "KEM",
-        "BIO", "NAR", "TEH", "GOS", "SPO"
-    ];
 
     const loadCollections = async () => {
         try {
@@ -59,29 +54,38 @@ function Collections() {
     }
 
     return (
-        <>
-            <Navbar curr={"collections"}/>
+    <>
+        <Navbar curr={"collections"}/>
 
-            <div className="container my-4">
-                <div className="row justify-content-center">
-                    <div className="col-lg-8">
+        <div className="container my-4">
+            <div className="row justify-content-center">
+                <div className="col-lg-8">
 
-                        <Search keyword={[keyword, setKeyword]} grade={[grade, setGrade]}
-                                subject={[subject, setSubject]} difficulty={[difficulty, setDifficulty]}/>
+                    <Search keyword={[keyword, setKeyword]} grade={[grade, setGrade]}
+                            subject={[subject, setSubject]} difficulty={[difficulty, setDifficulty]}/>
 
-                        {collections.map((collection) => (
-                            //checka ce je keyword anywhere in collection
-                            JSON.stringify(collection).toLowerCase().includes(keyword.toLowerCase()) &&
-                            //check za grade
-                            (grade === "" || collection.grade.toString() === grade) &&
-                            (subject === "" || collection.subject === subject) &&
-                            (difficulty === "" || collection.difficulty.toString() === difficulty) &&
-                            <Collection key={collection.id} data={collection}/>
-                        ))}
+                    <div className="d-flex justify-content-end mb-3">
+                        <button
+                            className="btn btn-success"
+                            onClick={() => navigate("/editor")}
+                        >
+                            Generiraj nove kartice
+                        </button>
                     </div>
+
+                    {collections.map((collection) => (
+                        //checka ce je keyword anywhere in collection
+                        JSON.stringify(collection).toLowerCase().includes(keyword.toLowerCase()) &&
+                        //check za grade
+                        (grade === "" || collection.grade.toString() === grade) &&
+                        (subject === "" || collection.subject === subject) &&
+                        (difficulty === "" || collection.difficulty.toString() === difficulty) &&
+                        <Collection key={collection.id} data={collection}/>
+                    ))}
                 </div>
             </div>
-        </>
+        </div>
+    </>
     );
 }
 

@@ -74,11 +74,17 @@ async function generate(pdfFile) {
     const pdfPart = await fileToGenerativePart(pdfFile);
 
     console.log("Generating content from PDF ...");
-    const result = await model.generateContent([systemprompt, pdfPart]);
+    try {
+        const result = await model.generateContent([systemprompt, pdfPart]);
 
-    console.log("Generation complete.");
+        console.log("Generation complete.");
 
-    return parseResponse(result);
+        return parseResponse(result);
+    } catch (error) {
+        alert("Napaka pri generiranju vsebine: " + error);
+        console.error("Error during content generation:", error);
+    }
+    return;
 }
 
 export {generate};

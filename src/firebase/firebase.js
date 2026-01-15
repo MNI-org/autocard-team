@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const ai = getAI(app, { backend: new GoogleAIBackend() });
-const model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
+const model = getGenerativeModel(ai, { model: "gemini-2.5-flash-lite" });
 const analytics = getAnalytics(app);
 
 export { app, auth, analytics, model, db };

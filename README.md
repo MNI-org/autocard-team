@@ -1,4 +1,4 @@
-# AutoCard
+# AutoCard - electronics
 
 ## AI-powered flashcards with gamification for smarter learning.
 Upload PDFs or PowerPoints, auto-generate flashcards with AI, and share them in a global library.

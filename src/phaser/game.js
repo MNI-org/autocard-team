@@ -8,7 +8,6 @@ import MenuScene from './scenes/menuScene';
 import LabScene from './scenes/labScene';
 import TestScene from './scenes/testScene';
 import LoginScene from './scenes/loginScene';
-import ScoreboardScene from './scenes/scoreboardScene';
 import WorkspaceScene from './scenes/workspaceScene';
 import KnowledgeHubScene from './scenes/knowledgeHubScene';
 
@@ -28,7 +27,6 @@ const config = {
         UIScene,
         TestScene,
         LoginScene,
-        ScoreboardScene,
         KnowledgeHubScene
     ],
     physics: {
