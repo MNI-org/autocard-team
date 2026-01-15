@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Logo from "../assets/AutoCard_logo.png";
+import Logo from "../assets/AutoCard_electronics_logo.png";
 
 function Home() {
     const { currentUser, userLogged } = useAuth();

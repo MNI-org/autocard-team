@@ -25,7 +25,7 @@ function Navbar(props) {
                 <a className="navbar-brand fw-bold">
                     <button className="nav-link active"
                             onClick={() => navigate("/")}>
-                        AutoCard
+                        AutoCard - elektrotehnika
                     </button>
                 </a>
 
@@ -63,12 +63,6 @@ function Navbar(props) {
                                         Teorija
                                     </button>
                                 </li>
-                                {/*<li className="nav-item">*/}
-                                {/*    <button className={`nav-link ${props.curr === "editor" ? "active" : ""}`}*/}
-                                {/*            onClick={() => navigate("/editor")}>*/}
-                                {/*        Ustvari*/}
-                                {/*    </button>*/}
-                                {/*</li>*/}
                                 <li className="nav-item">
                                     <button className={`nav-link ${props.curr === "editor" ? "active" : ""}`}
                                             onClick={() => navigate("/profile")}>

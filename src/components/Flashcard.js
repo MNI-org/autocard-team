@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useAuth} from "../contexts/authContext";
-import {db} from "../firebase/firebase";
-import {doc, setDoc} from "firebase/firestore";
+import { addXp } from "../firebase/xp";
 
 function Flashcard(props) {
     const {currentUser, userLogged} = useAuth();
@@ -9,25 +8,7 @@ function Flashcard(props) {
     const [showFeedback, setShowFeedback] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
 
-    async function processXpGain(xp) {
-        const base = 10;
-        const mult = 1.25;
-
-        currentUser.xp -= -xp;
-        if (currentUser.xp > currentUser.level * mult * base) {
-            currentUser.level -= -1;
-            currentUser.xp = 0;
-        }
-
-        await setDoc(doc(db, "users", currentUser.uid), {
-            email: currentUser.email,
-            displayName: currentUser.displayName,
-            level: currentUser.level ?? 1,
-            xp: currentUser.xp ?? 0
-        }, {merge: true});
-    }
-
-    const handleFlip = () => {
+        const handleFlip = () => {
         if (!showFeedback) {
             setIsFlipped(!isFlipped);
             if (!isFlipped) {
@@ -41,7 +22,7 @@ function Flashcard(props) {
 
         try {
             if (correct) {
-                await processXpGain(10);
+                await addXp(currentUser.uid, 10);
             }
 
             setTimeout(() => {

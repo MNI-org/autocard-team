@@ -113,27 +113,11 @@ export default class LabScene extends Phaser.Scene {
     const pfp = localStorage.getItem('profilePic');
 
     // avvatar
-    const avatarX = 230;
-    const avatarY = 55;
-    const avatarRadius = 30;
-    const borderThickness = 4;
-
-    // zunanji siv krog (rob)
-    const borderCircle = this.add.circle(avatarX, avatarY, avatarRadius + borderThickness, 0xcccccc);
-
-    // notranji bel krog (ozadje za avatar)
-    const innerCircle = this.add.circle(avatarX, avatarY, avatarRadius, 0xffffff);
-
-    // slika avatarja
-    const avatarImage = this.add.image(avatarX, avatarY, pfp)
-      .setDisplaySize(avatarRadius * 2, avatarRadius * 2);
-
-    // maska, da je slika samo znotraj notranjega kroga
-    const mask = innerCircle.createGeometryMask();
-    avatarImage.setMask(mask);
+    const uiX = 230;
+    const uiY = 55;
 
     // pozdravno besedilo
-    this.add.text(avatarX + 60, avatarY - 10, `Dobrodošel v laboratoriju, uporabnik ${username}!`, {
+    this.add.text(uiX + 60, uiY - 10, `Dobrodošel v laboratoriju, uporabnik ${username}!`, {
       fontSize: '22px',
       color: '#222',
       fontStyle: 'bold'
@@ -159,38 +143,12 @@ export default class LabScene extends Phaser.Scene {
     const rightMargin = 60;
     const topMargin = 40;
 
-    // za scoreboard
-    const scoreButtonBg = this.add.graphics();
-    scoreButtonBg.fillStyle(0x3399ff, 1);
-    scoreButtonBg.fillRoundedRect(width - buttonWidth - rightMargin, topMargin, buttonWidth, buttonHeight, cornerRadius);
-
-    const scoreButton = this.add.text(width - buttonWidth / 2 - rightMargin, topMargin + buttonHeight / 2, 'Lestvica', {
-      fontFamily: 'Arial',
-      fontSize: '20px',
-      color: '#ffffff'
-    })
-      .setOrigin(0.5)
-      .setInteractive({ useHandCursor: true })
-      .on('pointerover', () => {
-        scoreButtonBg.clear();
-        scoreButtonBg.fillStyle(0x0f5cad, 1);
-        scoreButtonBg.fillRoundedRect(width - buttonWidth - rightMargin, topMargin, buttonWidth, buttonHeight, cornerRadius);
-      })
-      .on('pointerout', () => {
-        scoreButtonBg.clear();
-        scoreButtonBg.fillStyle(0x3399ff, 1);
-        scoreButtonBg.fillRoundedRect(width - buttonWidth - rightMargin, topMargin, buttonWidth, buttonHeight, cornerRadius);
-      })
-      .on('pointerdown', () => {
-        this.scene.start('ScoreboardScene', { cameFromMenu: true });
-      });
-
     // za knjižnico znanja
     const knowledgeButtonBg = this.add.graphics();
     knowledgeButtonBg.fillStyle(0x3399ff, 1);
-    knowledgeButtonBg.fillRoundedRect(width - buttonWidth - rightMargin, topMargin + buttonHeight + 20, buttonWidth, buttonHeight, cornerRadius);
+    knowledgeButtonBg.fillRoundedRect(width - buttonWidth - rightMargin, uiY - 10, buttonWidth, buttonHeight, cornerRadius);
 
-    const knowledgeButton = this.add.text(width - buttonWidth / 2 - rightMargin, topMargin + buttonHeight + 20 + buttonHeight / 2, 'Knjižnica znanja', {
+    const knowledgeButton = this.add.text(width - buttonWidth / 2 - rightMargin, uiY - 10 + buttonHeight / 2, 'Knjižnica znanja', {
       fontFamily: 'Arial',
       fontSize: '20px',
       color: '#ffffff'

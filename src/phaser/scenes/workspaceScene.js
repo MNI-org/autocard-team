@@ -7,6 +7,8 @@ import { CircuitGraph } from '../logic/circuit_graph';
 import { Node } from '../logic/node';
 import { Switch } from '../components/switch';
 import { Resistor } from '../components/resistor';
+import { addXp } from '../../firebase/xp';
+import { getAuth } from 'firebase/auth';
 
 export default class WorkspaceScene extends Phaser.Scene {
     constructor() {
@@ -227,7 +229,6 @@ export default class WorkspaceScene extends Phaser.Scene {
             return { bg, text };
         };
 
-        makeButton(width - 140, 75, 'Lestvica', () => this.scene.start('ScoreboardScene', { cameFromMenu: false }), "Poglej kako se odrežeš proti ostalim igralcem!");
         makeButton(width - 140, 125, 'Simulacija tokokroga', async () => {
             this.connected = await this.graph.simulate()
             if (this.connected == 1) {
@@ -906,13 +907,14 @@ export default class WorkspaceScene extends Phaser.Scene {
     }
 
     addPoints(points) {
-        const user = localStorage.getItem('username');
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const userData = users.find(u => u.username === user);
-        if (userData) {
-            userData.score = (userData.score || 0) + points;
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user) {
+            addXp(user.uid, points);
+        } else {
+            console.error("No user is currently signed in.");
         }
-        localStorage.setItem('users', JSON.stringify(users));
     }
 
     showTheory(theoryText) {
