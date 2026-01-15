@@ -7,9 +7,14 @@ import Dropdown from "./Dropdown";
 
 function Search(props) {
     const subjects = [
-        "SLO", "MAT", "ANG", "LUM", "GUM",
-        "GEO", "ZGO", "ETK", "FIZ", "KEM",
-        "BIO", "NAR", "TEH", "GOS", "SPO"
+        "ELE", // Osnove elektrotehnike
+        "ELA", // Elektronika
+        "MOE", // Močnostna elektrotehnika
+        "AVT", // Avtomatika in vodenje
+        "ROB", // Robotika
+        "SIG", // Signali in sistemi
+        "EME", // Električni stroji
+        "MER"  // Meritve in instrumentacija
     ];
 
     return (
